@@ -1,0 +1,35 @@
+.login{
+    width: 1470px;
+    height: 985px;
+}
+.login .box-login{
+    width: 656px;
+    height: 662px;
+    background-color: white;
+    position: relative;
+    top: 64px;
+    left: 612px;
+}
+.content{
+    margin-left: 80px;
+    position: relative;
+    top: 89px
+}
+.content-login{
+    display: flex;
+    flex-direction: column;
+    width: 300px ;
+    gap: 50px;
+
+}
+.content-login input{
+    padding-left: 10px;
+}
+.header-login{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.btn-signup{
+    width: 300px;
+}
