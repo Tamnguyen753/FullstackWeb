@@ -13,10 +13,10 @@
     top: 64px;
     left: 612px;
 }
-.content{
-    margin-left: 80px;
-    position: relative;
-    top: 89px
+.content {
+  margin-left: 80px;
+  position: relative;
+  top: 89px;
 }
 .content-login{
     display: flex;
@@ -25,13 +25,16 @@
     gap: 50px;
 
 }
-.content-login input{
-    padding-left: 10px;
+.content-login input {
+  padding-left: 10px;
 }
-.header-login{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.header-login {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.btn-signup {
+  width: 300px;
 }
 .btn{
     display: flex;
