@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Register.css";
 import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
-import axios from 'axios';
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
