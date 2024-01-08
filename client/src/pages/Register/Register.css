@@ -16,11 +16,11 @@
   position: relative;
   top: 89px;
 }
-.content-login {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  gap: 50px;
+.content-login{
+    display: flex;
+    flex-direction: column;
+    width: 300px ;
+    gap: 30px;
 }
 .header-login {
   display: flex;
