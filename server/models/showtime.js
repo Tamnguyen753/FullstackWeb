@@ -1,15 +1,31 @@
 import mongoose from 'mongoose'
-import newID from '../utils/main.js';
+
 
 
 const showtimeSchema = new mongoose.Schema({
-  showtimeId: {
+  startAt: {
     type: String,
-    default: newID(),
+    required: true,
+    trim: true,
   },
-  startTime: { type: Date, required: true },
-  endTime: { type: Date, required: true },
-  room: { type: mongoose.Schema.Types.ObjectId, ref: 'Room' },
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
+    type: Date,
+    required: true,
+  },
+  movieId: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Movie',
+    required: true,
+  },
+  cinemaId: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Cinema',
+    required: true,
+  },
 });
 
 const ShowtimeModel = mongoose.model('Showtimes', showtimeSchema);

@@ -19,10 +19,6 @@ const cinemaSchema = new mongoose.Schema({
     seats: {
       type: [mongoose.SchemaTypes.Mixed],
       required: true,
-    },
-    seatsAvailable: {
-      type: Number,
-      required: true,
     }
   });
 

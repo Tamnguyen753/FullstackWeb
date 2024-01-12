@@ -3,25 +3,25 @@ import accountModel from "../models/account.js";
 import { getToken } from "../utils/index.js";
 import movieModel from "../models/movie.js";
 import CustomErr from "../utils/error.js";
-import theaterModel from "../models/theater.js";
-import roomModel from "../models/room.js";
 import cinemaModel from "../models/cinema.js";
+import mongoose from "mongoose";
+import ShowtimeModel from "../models/showtime.js";
 const register = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password ) {
-      throw new CustomErr('username and password are required',400)
+    const { username, password } = req.body;
+    if (!username || !password) {
+      throw new CustomErr('username and password are required', 400)
     }
     //hash password
     const salt = bcrypt.genSaltSync();
     const hashedPassword = bcrypt.hashSync(password, salt);
     //check username already
-    const currentAccount = await accountModel.findOne({ email });
+    const currentAccount = await accountModel.findOne({ username });
     if (currentAccount) {
-      throw new CustomErr(`Tài khoản đã tồn tại`,409)
+      throw new CustomErr(`Tài khoản đã tồn tại`, 409)
     }
     const createAccount = await accountModel.create({
-      email,
+      username,
       password: hashedPassword,
     });
     res.status(201).send({
@@ -38,13 +38,13 @@ const register = async (req, res, next) => {
 };
 const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     const existingUser = await accountModel.findOne({
-      email,
+      username,
     });
     //find user
     if (!existingUser) {
-      throw new CustomErr("Tên đăng nhập không tồn tại !",409);
+      throw new CustomErr("Tên đăng nhập không tồn tại !", 409);
     }
     //compare
     const matched = bcrypt.compareSync(password, existingUser.password);
@@ -64,105 +64,138 @@ const login = async (req, res, next) => {
   }
 };
 const movie = async (req, res, next) => {
-    try {
-        const {
-            name,
-            image,
-            director,
-            actor,
-            tag,
-            duration,
-            launch,
-            language,
-            rating,
-            trailer,
-          } = req.body;
-          const createMoive = await movieModel.create(req.body)
-          res.status(201).send({
-            message:"Thành công!",
-            data: createMoive
-          })
-    } catch (error) {
-        res.status(403).send({
-            message: error.message,
-          });
-    }
-};
-const getMovie = async(req,res,next) => {
-    try {
-        const movies = await movieModel.find();
-        res.status(201).send({
-            message: "Thành công !",
-            data: movies
-        });
-        console.log(movieModel.length);
-    } catch (error) {
-        res.status(403).send({
-            message: error.message
-        })
-    }
-};
-const getMovieById = async (req,res,next) =>{
-try {
-  const movieUUID = String(req.params.id)
-  // const movie = await movieModel.findById(movieUUID)
-  const movie = await movieModel.findOne({ id: movieUUID });
-  console.log(typeof movieUUID); 
-  console.log(movieUUID);
-  if(!movie) {
-    return res.status(404).json({error: "Không tìm thấy phim !"})
-  }
-  res.json(movie);
-} catch (error) {
-  res.status(500).json({error:error.message})
-}
-};
-
-const theater = async (req,res) =>{
   try {
-    const {name, location} = req.body;
-    const createTheater = await theaterModel.create({name,location});
+    const {
+      name,
+      image,
+      director,
+      actor,
+      tag,
+      duration,
+      launch,
+      language,
+      rating,
+      trailer,
+    } = req.body;
+    const createMoive = await movieModel.create(req.body)
     res.status(201).send({
-      message:"Thành công!",
-      data: createTheater
+      message: "Thành công!",
+      data: createMoive
     })
   } catch (error) {
-    res.status(403).json({error:error.message})
+    res.status(403).send({
+      message: error.message,
+    });
   }
 };
-
-const room = async (req,res) => {
+const getMovie = async (req, res, next) => {
   try {
-    const {name, theaterId} = req.body;
-
-    const theater = await theaterModel.findById(theaterId);
-    if(!theater){
-      return res.status(404).json({error:"Không tìm thấy rạp"})
-    }
-    const createRoom = await roomModel.create({name, theaterId})
+    const movies = await movieModel.find();
     res.status(201).send({
-      message:"Thành công!",
-      data: createRoom
-    })
+      message: "Thành công !",
+      data: movies
+    });
+    console.log(movieModel.length);
   } catch (error) {
-    res.status(403).json({error:error.message})
+    res.status(403).send({
+      message: error.message
+    })
+  }
+};
+const getMovieById = async (req, res, next) => {
+  try {
+    const movieUUID = String(req.params.id)
+    // const movie = await movieModel.findById(movieUUID)
+    const movie = await movieModel.findOne({ id: movieUUID });
+    console.log(typeof movieUUID);
+    console.log(movieUUID);
+    if (!movie) {
+      return res.status(404).json({ error: "Không tìm thấy phim !" })
+    }
+    res.json(movie);
+  } catch (error) {
+    res.status(500).json({ error: error.message })
   }
 };
 
-const cinema = async(req,res) => {
+const cinema = async (req, res) => {
   try {
-    const {name,ticketPrice,city,seats,seatsAvailable} = req.body
-    const cinema = await cinemaModel.create({name,ticketPrice,city,seats,seatsAvailable})
+    const { name, ticketPrice, city, seats, seatsAvailable } = req.body
+    const cinema = await cinemaModel.create({ name, ticketPrice, city, seats, seatsAvailable })
     res.status(201).send({
-      message:"Thành công!",
+      message: "Thành công!",
       data: cinema
     })
   } catch (error) {
-    res.status(403).json({error:error.message})
+    res.status(403).json({ error: error.message })
   }
 }
 
+const getCinema = async (req, res) => {
+  try {
+    const cinemas = await cinemaModel.find()
+    res.status(201).send({
+      message: "Thành công !",
+      data: cinemas
+    });
+  } catch (error) {
+    res.status(403).send({
+      message: error.message
+    })
+  }
+};
+
+const getCinemabyId = async (req, res) => {
+  try {
+    const _id = String(req.params.id);
+    const cinema = await cinemaModel.findById(_id);
+    if (!cinema) {
+      return res.status(404).json({ error: "Không tìm thấy rạp !" })
+    }
+    res.json(cinema);
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  };
+
+}
+const showTime = async (req, res) => {
+  try {
+    const { startAt, startDate, endDate, movieId, cinemaId } = req.body;
+    const createShowtime = await ShowtimeModel.create({ startAt, startDate, endDate, movieId, cinemaId });
+    res.status(201).send({
+      message: "Thành công!",
+      data: createShowtime
+    })
+  } catch (error) {
+    res.status(403).json({ error: error.message })
+  }
+};
+const getShowtime = async (req, res) => {
+  try {
+    const showTime = await ShowtimeModel.find()
+    res.status(201).send({
+      message: "Thành công !",
+      data: showTime
+    });
+  } catch (error) {
+    res.status(403).send({
+      message: error.message
+    })
+  }
+};
+const getShowtimebyId = async (req, res) => {
+  try {
+    const _id = String(req.params.id);
+    const showTime = await ShowtimeModel.findById(_id);
+    if (!showTime) {
+      return res.status(404).json({ error: "Không tìm thấy showtime !" })
+    }
+    res.json(showTime);
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  };
+
+}
 
 
-
-export { register, login , movie, getMovie , getMovieById, theater, room , cinema };
+export { register, login, movie, getMovie, getMovieById, cinema, getCinema, getCinemabyId, showTime, getShowtime, getShowtimebyId };
