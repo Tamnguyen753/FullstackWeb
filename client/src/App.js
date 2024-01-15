@@ -10,7 +10,9 @@ import NotFound from "./pages/NotFound/NotFound";
 import Layout from "./shared/layout/Layout";
 import Payment from "./pages/Payment/Payment";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import Vnpay from "./pages/VnPay/Vnpay";
+import Atm from "./pages/Atm/Atm";
 
 export const AppContext = createContext()
 const App = () => {
@@ -32,6 +34,9 @@ const App = () => {
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/seats" element={<Seat />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/vnpay" element={<Vnpay />} />
+            <Route path="/atm" element={<Atm />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>

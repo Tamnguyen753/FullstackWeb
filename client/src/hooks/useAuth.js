@@ -10,46 +10,46 @@ const useAuth = () => {
     const { setUser } = useContext(AppContext)
     const login = async (data) => {
         try {
-            const {email,password} = data;
+            const { username, password } = data;
             const res = await request({
                 data: {
-                    email,
+                    username,
                     password,
                 },
                 method: "post",
-                url:"/login"
+                url: "/login"
             });
-            
+
             const token = JSON.stringify(res.data.data);
             console.log(token);
-            localStorage.setItem("access_token",token)
+            localStorage.setItem("access_token", token)
             toast.success("Login success");
             navigate("/");
         } catch (err) {
             toast.error(extractMessageFromErr(err))
             console.log(extractMessageFromErr(err));
         }
-        } 
+    }
     const register = async (data) => {
         try {
-            const {email,password} = data;
+            const { username, password } = data;
             const res = await request({
                 data: {
-                    email,
+                    username,
                     password,
                 },
                 method: "post",
-                url:"/register"
+                url: "/register"
             });
-            
+
             toast.success("Register success");
             navigate("/login");
         } catch (err) {
             toast.error(extractMessageFromErr(err))
         }
-        } 
+    }
 
-  return {login , register}
+    return { login, register }
 }
 
 export default useAuth

@@ -11,22 +11,23 @@ import Input from "antd/es/input/Input";
 import ErrorsMessage from "../../shared/components/ErrorMessages";
 
 const schema = yup.object().shape({
-  email: yup.string().required(),
-  password:yup.string().required()
+  username: yup.string().required(),
+  password: yup.string().required()
 })
 
 const Register = () => {
   const {
     handleSubmit,
     control,
-    formState: {errors},
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const {register} = useAuth();
+  const { register } = useAuth();
   const onSubmit = async (data) => {
     try {
-      register(data) 
+      register(data)
+      console.log(data);
     } catch (err) {
       toast.error(extractMessageFromErr(err))
     }
@@ -47,41 +48,41 @@ const Register = () => {
             <h2>NAMA LENGKAP</h2>
           </div>
           <div className="content-login">
-          <div>
-          <Controller
-            control={control}
-            name="email"
-            render={({field}) => (
-              <Input 
-              {...field} 
-              status={"error.email" ? "error" : ""}  />)}>
+            <div>
+              <Controller
+                control={control}
+                name="username"
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    status={"error.username" ? "error" : ""} />)}>
 
-            </Controller>
-            {errors.email && <ErrorsMessage message={errors.email} />}
-          </div>
+              </Controller>
+              {errors.username && <ErrorsMessage message={errors.username} />}
+            </div>
             <div>
               <h2>NOMOR HANDPHONE</h2>
               <Controller
-            control={control}
-            name="password"
-            render={({field}) => (
-              <Input 
-              {...field} 
-              status={"error.password" ? "error" : ""}
-              type="password"
-              />)}>
+                control={control}
+                name="password"
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    status={"error.password" ? "error" : ""}
+                    type="password"
+                  />)}>
 
-            </Controller>
-            {errors.password && <ErrorsMessage message={errors.password} />}
+              </Controller>
+              {errors.password && <ErrorsMessage message={errors.password} />}
             </div>
             <Button
-        className="submit"
-        type="primary"
-        onClick={handleSubmit(onSubmit)}
-      >
-        Sign in
-      </Button>
-            
+              className="submit"
+              type="primary"
+              onClick={handleSubmit(onSubmit)}
+            >
+              Sign in
+            </Button>
+
           </div>
         </div>
       </div>
