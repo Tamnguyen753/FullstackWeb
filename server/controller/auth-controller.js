@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import accountModel from "../models/account.js";
 import { getToken } from "../utils/index.js";
 import movieModel from "../models/movie.js";
@@ -6,6 +6,7 @@ import CustomErr from "../utils/error.js";
 import cinemaModel from "../models/cinema.js";
 import mongoose from "mongoose";
 import ShowtimeModel from "../models/showtime.js";
+import bookingModel from "../models/booking.js";
 const register = async (req, res, next) => {
   try {
     const { username, password } = req.body;
@@ -105,8 +106,7 @@ const getMovie = async (req, res, next) => {
 const getMovieById = async (req, res, next) => {
   try {
     const movieUUID = String(req.params.id)
-    // const movie = await movieModel.findById(movieUUID)
-    const movie = await movieModel.findOne({ id: movieUUID });
+    const movie = await movieModel.findById(movieUUID)
     console.log(typeof movieUUID);
     console.log(movieUUID);
     if (!movie) {
@@ -195,7 +195,49 @@ const getShowtimebyId = async (req, res) => {
     res.status(500).json({ error: error.message })
   };
 
-}
+};
 
 
-export { register, login, movie, getMovie, getMovieById, cinema, getCinema, getCinemabyId, showTime, getShowtime, getShowtimebyId };
+const booking = async (req, res) => {
+  try {
+    const { showtimeId, seatNumbers, userId } = req.body;
+    const createbooking = await bookingModel.create({ showtimeId, seatNumbers, userId });
+    res.status(201).send({
+      message: "Thành công!",
+      data: createbooking
+    })
+  } catch (error) {
+    res.status(403).json({ error: error.message })
+  }
+};
+const getBooking = async (req, res) => {
+  try {
+    const booking = await bookingModel.find()
+    res.status(201).send({
+      message: "Thành công !",
+      data: booking
+    });
+  } catch (error) {
+    res.status(403).send({
+      message: error.message
+    })
+  }
+};
+const getBookingbyId = async (req, res) => {
+  try {
+    const _id = String(req.params.id);
+    const booking = await bookingModel.findById(_id);
+    if (!booking) {
+      return res.status(404).json({ error: "Không tìm thấy booking !" })
+    }
+    res.json(booking);
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  };
+
+};
+
+
+
+
+export { register, login, movie, getMovie, getMovieById, cinema, getCinema, getCinemabyId, showTime, getShowtime, getShowtimebyId, booking, getBooking, getBookingbyId };
