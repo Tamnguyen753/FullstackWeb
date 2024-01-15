@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { register, login, movie, getMovie, getMovieById, cinema, getCinema, getCinemabyId, showTime, getShowtime, getShowtimebyId } from '../controller/auth-controller.js'
+import { register, login, movie, getMovie, getMovieById, cinema, getCinema, getCinemabyId, showTime, getShowtime, getShowtimebyId, booking, getBooking, getBookingbyId } from '../controller/auth-controller.js'
 const authRouter = Router();
 
 authRouter.post('/register', register)
@@ -13,6 +13,9 @@ authRouter.get('/cinema/:id', getCinemabyId)
 authRouter.post('/showtime', showTime)
 authRouter.get("/showtime", getShowtime)
 authRouter.get("/showtime/:id", getShowtimebyId)
+authRouter.post("/booking", booking)
+authRouter.get("/booking", getBooking)
+authRouter.get("/booking", getBookingbyId)
 
 // số lượng rạp: 3 . phòng: 2 . ghế: 20
 // data: thời gian chiếu
