@@ -157,7 +157,7 @@ const getCinemabyId = async (req, res) => {
     res.status(500).json({ error: error.message })
   };
 
-}
+};
 const showTime = async (req, res) => {
   try {
     const { startAt, startDate, endDate, movieId, cinemaId } = req.body;
@@ -187,6 +187,19 @@ const getShowtimebyId = async (req, res) => {
   try {
     const _id = String(req.params.id);
     const showTime = await ShowtimeModel.findById(_id);
+    if (!showTime) {
+      return res.status(404).json({ error: "Không tìm thấy showtime !" })
+    }
+    res.json(showTime);
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  };
+
+};
+const getShowtimebyMovieId = async (req, res) => {
+  try {
+    const movieId = String(req.params.id)
+    const showTime = await ShowtimeModel.find({ movieId: movieId })
     if (!showTime) {
       return res.status(404).json({ error: "Không tìm thấy showtime !" })
     }
@@ -240,4 +253,4 @@ const getBookingbyId = async (req, res) => {
 
 
 
-export { register, login, movie, getMovie, getMovieById, cinema, getCinema, getCinemabyId, showTime, getShowtime, getShowtimebyId, booking, getBooking, getBookingbyId };
+export { register, login, movie, getMovie, getMovieById, cinema, getCinema, getCinemabyId, showTime, getShowtime, getShowtimebyId, booking, getBooking, getBookingbyId, getShowtimebyMovieId };
