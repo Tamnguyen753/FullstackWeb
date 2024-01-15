@@ -1,0 +1,39 @@
+.vnpay {
+    max-width: 1200px;
+    height: 300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.info{
+    width: 600px;
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+    font-size: 22px;
+    background-color: #f5f7f9;
+}
+.qr {
+    width: 600px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 22px;
+    background-color: white;
+
+}
+.atm Input {
+    width: 600px;
+}
+.atm p {
+    text-align: left;
+}
+
+.atm Button{
+    margin-top: 20px;
+}

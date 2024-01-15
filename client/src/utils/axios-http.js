@@ -6,7 +6,7 @@ const instance = axios.create({
 
 const request = (config) => {
     console.log(config);
-    return instance({...config});
+    return instance({ ...config });
 }
 
 const requestWithToken = (config) => {
@@ -14,10 +14,10 @@ const requestWithToken = (config) => {
 
     return instance({
         headers: {
-            Authorization:`Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
         },
         ...config,
     })
 }
 
-export {request, requestWithToken}
+export { request, requestWithToken }

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Admin from "./Admin";
 
 const HeaderComponent = styled.div`
   max-width: 1440px;
@@ -28,7 +29,8 @@ const HeaderComponent = styled.div`
 
 const Header = () => {
   return (
-    <HeaderComponent>
+    <>
+        <HeaderComponent>
       <div className="header__logo">
         <img src="/images/header_logo.png" alt="" />
       </div>
@@ -106,6 +108,9 @@ const Header = () => {
         </li>
       </ul>
     </HeaderComponent>
+    <Admin />
+    </>
+
   );
 };
 

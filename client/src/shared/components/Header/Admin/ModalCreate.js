@@ -6,7 +6,6 @@ import * as yup from "yup";
 import ErrorsMessage from "../../ErrorMessages";
 import { toast } from "react-toastify";
 import { extractMessageFromErr } from "../../../../utils/error";
-// import { requestWithToken } from "../../../../utils/axios-http";
 import useAdmin from "../../../../hooks/useAdmin";
 
 const schema = yup.object().shape({
@@ -31,21 +30,6 @@ const ModalCreate = ({close}) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  // const onSubmit = async (data) => {
-  //   try {
-  //     await requestWithToken({
-  //       url: "/movie",
-  //       method: "post",
-  //       data,
-  //     });
-  //     console.log(data);
-  //     toast.success("create success");
-  //     close();
-  //   } catch (err) {
-  //     toast.error(extractMessageFromErr(err));
-  //     console.log(err);
-  //   }
-  // };
   const {createMovie} = useAdmin()
   const onSubmit = async (data) => {
     try {
@@ -54,9 +38,6 @@ const ModalCreate = ({close}) => {
     } catch (err) {
       toast.error(extractMessageFromErr(err))
     }
-  }
-  const onLog = () => {
-    console.log('abc');
   }
   return (
     <div>
