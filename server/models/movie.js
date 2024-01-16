@@ -18,5 +18,5 @@ const movieSchema = new mongoose.Schema({
         default: newID()
     },
 })
-const movieModel = mongoose.model('movies',movieSchema)
+const movieModel = mongoose.model('Movie', movieSchema)
 export default movieModel

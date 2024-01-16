@@ -185,7 +185,7 @@ const getShowtime = async (req, res) => {
 };
 const getShowtimebyId = async (req, res) => {
   try {
-    const _id = String(req.params.id);
+    const _id = req.params.id;
     const showTime = await ShowtimeModel.findById(_id);
     if (!showTime) {
       return res.status(404).json({ error: "Không tìm thấy showtime !" })
@@ -198,12 +198,17 @@ const getShowtimebyId = async (req, res) => {
 };
 const getShowtimebyMovieId = async (req, res) => {
   try {
-    const movieId = String(req.params.id)
-    const showTime = await ShowtimeModel.find({ movieId: movieId })
-    if (!showTime) {
-      return res.status(404).json({ error: "Không tìm thấy showtime !" })
-    }
-    res.json(showTime);
+    const movieId = req.params.id
+    const showTime = await ShowtimeModel.find()
+    // const showTime = await ShowtimeModel.find({ movieId: movieId }).exec()
+    // console.log(showTime);
+    // if (!showTime) {
+    //   return res.status(404).json({ error: "Không tìm thấy showtime !" })
+    // }
+    // res.json(showTime);
+    const filteredShowTimes = showTime.filter(showtime => showtime.movieId.toString() === movieId);
+
+    res.json(filteredShowTimes);
   } catch (error) {
     res.status(500).json({ error: error.message })
   };
