@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Admin from "./Admin";
+import { useNavigate } from "react-router-dom";
 
+//css
 const HeaderComponent = styled.div`
   max-width: 1440px;
   margin: 0 auto;
@@ -25,13 +27,22 @@ const HeaderComponent = styled.div`
       cursor: pointer;
     }
   }
+  .header__logo {
+    cursor: pointer;
+  }
 `;
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
+<<<<<<< HEAD
     <>
         <HeaderComponent>
       <div className="header__logo">
+=======
+    <HeaderComponent>
+      <div className="header__logo" onClick={() => navigate("/")}>
+>>>>>>> 40d3f70 (schedule-vudd-1)
         <img src="/images/header_logo.png" alt="" />
       </div>
       <ul className="header__menu">

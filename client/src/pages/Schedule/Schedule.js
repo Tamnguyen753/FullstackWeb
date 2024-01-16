@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ScheduleSlot from "./components/ScheduleSlot";
 import MovieTime from "./components/MovieTime";
 import MovieCheckOutTicket from "./components/MovieCheckOutTicket";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
+//css
 const ScheduleMovie = styled.div`
   max-width: 1440px;
   margin: 0 auto;
@@ -25,7 +28,27 @@ const ScheduleMovie = styled.div`
   }
 `;
 
+const getMovieById = async (movieId) => {
+  try {
+    const response = await axios.get(
+      `http://127.0.0.1:8000/getMovie/${movieId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const Schedule = () => {
+  const param = useParams();
+  const [movieById, setMovieById] = useState({});
+  const handleFetchData = async () => {
+    const movie = await getMovieById(param.movieId);
+    setMovieById(movie);
+  };
+  useEffect(() => {
+    handleFetchData();
+  }, []);
   return (
     <ScheduleMovie>
       <div className="schedule-left">
@@ -68,12 +91,13 @@ const Schedule = () => {
       </div>
       <div className="schedule-right">
         <div className="movie-info">
-          <img src="/images/movie-1.png" alt="" />
+          <img src={movieById.image} alt="" />
+
           <div className="movie-info-desc">
-            <p>Gener : Action</p>
-            <p>Duration: 2h28p</p>
-            <p>Director: Jon Watts</p>
-            <p>Ratting: Good</p>
+            <p>Thể loại: {movieById.tag}</p>
+            <p>Thời lượng: {movieById.duration}</p>
+            <p>Director: {movieById.director}</p>
+            <p>Ratting: {movieById.rating}</p>
           </div>
         </div>
         <div className="movie-checkout">

@@ -41,9 +41,9 @@ const Movie = styled.div`
   }
 `;
 
-const MovieOverView = ({ titleMovie, imageMovie }) => {
+const MovieOverView = ({ titleMovie, imageMovie, onClickMovie }) => {
   return (
-    <Movie>
+    <Movie onClick={onClickMovie}>
       <div className="movie-image">
         <img src={imageMovie} alt="Spiderman Banner" />
       </div>
