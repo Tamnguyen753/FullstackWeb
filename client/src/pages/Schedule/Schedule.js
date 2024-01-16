@@ -23,8 +23,52 @@ const ScheduleMovie = styled.div`
   .schedule-slot {
     display: flex;
     gap: 24px;
+    margin-top: 20px;
   }
   .movie-info {
+    img {
+      width: 425px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+    }
+  }
+  .movie-info-desc {
+    p {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      color: #333333;
+    }
+  }
+
+  .schedule-title {
+    h4 {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 14px;
+      font-weight: 400;
+      color: #5a637a;
+    }
+  }
+  .schedule-cinema {
+    margin-top: 30px;
+  }
+  .cinema-name {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    p {
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+  .movie-time__list {
+    margin-top: 20px;
+  }
+  .movie-checkout {
   }
 `;
 
@@ -59,53 +103,70 @@ const getCinemaById = async (cineId) => {
   }
 };
 
+const getShowTime = async () => {
+  try {
+    const response = await axios.get("http://127.0.0.1:8000/showtime");
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const Schedule = () => {
   const param = useParams();
   const [movieById, setMovieById] = useState({});
   const [showTimeByMovieId, setShowTimeByMovieId] = useState([]);
   const [cinemaById, setCinemaById] = useState({});
+  const [showTimeOfMovie, setShowTimeOfMovie] = useState([]);
   const handleFetchData = async () => {
     const movie = await getMovieById(param.movieId);
     const showtime = await getShowTimeByMovieId(param.movieId);
-    // console.log(`showtime`, showtime, showtime[0].cinemaId);
-
+    const all_showtime = await getShowTime();
     if (showtime) {
-      console.log("test");
       const cinema = await getCinemaById(showtime[0].cinemaId);
       if (cinema) {
-        console.log(`cinema`, cinema);
         setCinemaById(cinema);
       }
     }
+    if (all_showtime) {
+      const filterShowtime = all_showtime.filter(
+        (item) => item.movieId === param.movieId
+      );
+      setShowTimeOfMovie(filterShowtime);
+      // console.log("Filter showtime: ", filterShowtime);
+    }
+    // console.log("showtime: ", all_showtime, typeof all_showtime);
+
     setMovieById(movie);
     setShowTimeByMovieId(showtime);
   };
   useEffect(() => {
     handleFetchData();
   }, []);
-  // console.log(showTimeByMovieId);
-  // console.log(showTimeByMovieId[0]);
-  console.log(cinemaById);
-
+  console.log(showTimeOfMovie);
   return (
     <ScheduleMovie>
       <div className="schedule-left">
         <div className="schedule-title">
-          <h4>Schedule</h4>
-          <p>Schedule update</p>
+          <h4>Lịch Chiếu</h4>
+          <p>Cập nhật lịch chiếu</p>
         </div>
         <div className="schedule-slot">
           {showTimeByMovieId[0] && (
             <ScheduleSlot
               day={showTimeByMovieId[0].startDate}
-              datetime={showTimeByMovieId[0].startDate}
+              datetime={showTimeByMovieId[0].startDate.slice(5, 10)}
             ></ScheduleSlot>
           )}
         </div>
         <div className="schedule-cinema">
           <div className="cinema-name">
-            {cinemaById && <p>{cinemaById.name}</p>}
-            {/* {console.log(`abc`, showTimeByMovieId[0]?.cinemaId)} */}
+            {cinemaById && (
+              <div className="cinema-name">
+                <img src="/images/Star.png" alt="" />
+                <p>{cinemaById.name}</p>
+              </div>
+            )}
           </div>
           <div className="movie-time__list">
             {showTimeByMovieId[0] && (
@@ -117,7 +178,6 @@ const Schedule = () => {
       <div className="schedule-right">
         <div className="movie-info">
           <img src={movieById.image} alt="" />
-
           <div className="movie-info-desc">
             <p>Thể loại: {movieById.tag}</p>
             <p>Thời lượng: {movieById.duration}</p>

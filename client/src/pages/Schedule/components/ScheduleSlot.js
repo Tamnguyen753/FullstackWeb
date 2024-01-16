@@ -27,7 +27,7 @@ const ScheduleSlot = ({ day, datetime }) => {
         <span>{datetime}</span>
       </div>
       <div className="slot-day">
-        <span>{day}</span>
+        <span>Fri</span>
       </div>
     </Slot>
   );
