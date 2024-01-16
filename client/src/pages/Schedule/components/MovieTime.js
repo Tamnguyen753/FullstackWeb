@@ -9,8 +9,8 @@ const MovieTimeSlot = styled.button`
   font-weight: 700;
 `;
 
-const MovieTime = () => {
-  return <MovieTimeSlot>22:00</MovieTimeSlot>;
+const MovieTime = ({ time }) => {
+  return <MovieTimeSlot>{time}</MovieTimeSlot>;
 };
 
 export default MovieTime;

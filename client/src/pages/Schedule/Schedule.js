@@ -39,16 +39,54 @@ const getMovieById = async (movieId) => {
   }
 };
 
+const getShowTimeByMovieId = async (movieId) => {
+  try {
+    const response = await axios.get(
+      `http://127.0.0.1:8000/showtime/${movieId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getCinemaById = async (cineId) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/cinema/${cineId}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const Schedule = () => {
   const param = useParams();
   const [movieById, setMovieById] = useState({});
+  const [showTimeByMovieId, setShowTimeByMovieId] = useState([]);
+  const [cinemaById, setCinemaById] = useState({});
   const handleFetchData = async () => {
     const movie = await getMovieById(param.movieId);
+    const showtime = await getShowTimeByMovieId(param.movieId);
+    // console.log(`showtime`, showtime, showtime[0].cinemaId);
+
+    if (showtime) {
+      console.log("test");
+      const cinema = await getCinemaById(showtime[0].cinemaId);
+      if (cinema) {
+        console.log(`cinema`, cinema);
+        setCinemaById(cinema);
+      }
+    }
     setMovieById(movie);
+    setShowTimeByMovieId(showtime);
   };
   useEffect(() => {
     handleFetchData();
   }, []);
+  // console.log(showTimeByMovieId);
+  // console.log(showTimeByMovieId[0]);
+  console.log(cinemaById);
+
   return (
     <ScheduleMovie>
       <div className="schedule-left">
@@ -57,35 +95,22 @@ const Schedule = () => {
           <p>Schedule update</p>
         </div>
         <div className="schedule-slot">
-          <ScheduleSlot></ScheduleSlot>
-          <ScheduleSlot></ScheduleSlot>
-          <ScheduleSlot></ScheduleSlot>
+          {showTimeByMovieId[0] && (
+            <ScheduleSlot
+              day={showTimeByMovieId[0].startDate}
+              datetime={showTimeByMovieId[0].startDate}
+            ></ScheduleSlot>
+          )}
         </div>
         <div className="schedule-cinema">
-          <div className="cinema-name">Aeon Ha Dong</div>
-          <div className="movie-time__list">
-            <MovieTime></MovieTime>
-            <MovieTime></MovieTime>
-            <MovieTime></MovieTime>
-            <MovieTime></MovieTime>
+          <div className="cinema-name">
+            {cinemaById && <p>{cinemaById.name}</p>}
+            {/* {console.log(`abc`, showTimeByMovieId[0]?.cinemaId)} */}
           </div>
-        </div>
-        <div className="schedule-cinema">
-          <div className="cinema-name">Aeon Ha Dong</div>
           <div className="movie-time__list">
-            <MovieTime></MovieTime>
-            <MovieTime></MovieTime>
-            <MovieTime></MovieTime>
-            <MovieTime></MovieTime>
-          </div>
-        </div>
-        <div className="schedule-cinema">
-          <div className="cinema-name">Aeon Ha Dong</div>
-          <div className="movie-time__list">
-            <MovieTime></MovieTime>
-            <MovieTime></MovieTime>
-            <MovieTime></MovieTime>
-            <MovieTime></MovieTime>
+            {showTimeByMovieId[0] && (
+              <MovieTime time={showTimeByMovieId[0].startAt}></MovieTime>
+            )}
           </div>
         </div>
       </div>
