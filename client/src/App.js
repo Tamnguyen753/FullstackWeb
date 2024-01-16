@@ -9,6 +9,8 @@ import News from "./pages/News/News";
 import NotFound from "./pages/NotFound/NotFound";
 import Layout from "./shared/layout/Layout";
 import Payment from "./pages/Payment/Payment";
+import NewDetail from "./pages/News/NewsItem/NewDetail";
+
 
 const App = () => {
   return (
@@ -23,6 +25,7 @@ const App = () => {
           <Route path="/seats" element={<Seat />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/news/:id" element={<NewDetail />} />
         </Routes>
       </Layout>
     </BrowserRouter>

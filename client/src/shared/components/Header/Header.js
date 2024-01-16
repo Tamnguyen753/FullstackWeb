@@ -40,7 +40,7 @@ const Header = () => {
           <a href="#">Ticket</a>
         </li>
         <li className="header__menu-item">
-          <a href="#" className="header__menu-item__link">
+          <a href="News" className="header__menu-item__link">
             News
           </a>
         </li>
