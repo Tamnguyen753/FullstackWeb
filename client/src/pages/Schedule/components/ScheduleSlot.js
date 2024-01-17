@@ -20,11 +20,11 @@ const Slot = styled.div`
   }
 `;
 
-const ScheduleSlot = () => {
+const ScheduleSlot = ({ day, datetime }) => {
   return (
     <Slot>
       <div className="slot-date">
-        <span>12 Jan</span>
+        <span>{datetime}</span>
       </div>
       <div className="slot-day">
         <span>Fri</span>

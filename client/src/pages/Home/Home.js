@@ -5,12 +5,14 @@ import BannerOverview from "./components/BannerOverview";
 import MovieNews from "./components/MovieNews";
 import MovieRecommend from "./components/MovieRecommend";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 //import slick
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+//  CSS page
 const HomePage = styled.div`
   max-width: 1440px;
   margin: 0 auto;
@@ -68,6 +70,8 @@ const HomePage = styled.div`
     }
   }
 `;
+
+//hàm lấy data từ api
 const getMovie = async () => {
   try {
     const response = await axios.get("http://127.0.0.1:8000/getMovie");
@@ -76,7 +80,10 @@ const getMovie = async () => {
     console.log(error);
   }
 };
+
+//component Home
 const Home = () => {
+  const navigate = useNavigate();
   const [recommendMovie, setRecommendMovie] = useState([]);
   const [allMovie, setAllMovie] = useState([]);
   const handleFetchData = async () => {
@@ -85,11 +92,13 @@ const Home = () => {
     setRecommendMovie(rMovie);
     setAllMovie(movies);
   };
+  const hanleViewMovieSchedule = (movieId) => {
+    navigate(`/schedule/${movieId}`);
+  };
   useEffect(() => {
     handleFetchData();
   }, []);
-  console.log(recommendMovie);
-  console.log(allMovie);
+  // settings cho slider
   const settings = {
     dots: true,
     infinite: false,
@@ -132,8 +141,10 @@ const Home = () => {
           {allMovie.length > 0 &&
             allMovie.map((item, index) => (
               <MovieOverView
+                key={`key: ${item._id}`}
                 titleMovie={item.name}
                 imageMovie={item.image}
+                onClickMovie={() => hanleViewMovieSchedule(item._id)}
               ></MovieOverView>
             ))}
         </Slider>

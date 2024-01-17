@@ -7,10 +7,16 @@ const MovieTimeSlot = styled.button`
   border-radius: 4px;
   font-size: 12px;
   font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #1a2c50;
+    color: white;
+  }
 `;
 
-const MovieTime = () => {
-  return <MovieTimeSlot>22:00</MovieTimeSlot>;
+const MovieTime = ({ time }) => {
+  return <MovieTimeSlot>{time}</MovieTimeSlot>;
 };
 
 export default MovieTime;
