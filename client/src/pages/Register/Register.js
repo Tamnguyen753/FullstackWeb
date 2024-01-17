@@ -1,31 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Register.css";
 import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import useAuth from "../../hooks/useAuth";
+import { toast } from "react-toastify";
+import { extractMessageFromErr } from "../../utils/error";
+import Input from "antd/es/input/Input";
+import ErrorsMessage from "../../shared/components/ErrorMessages";
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password,setPassword] = useState('');
-  const navigate = useNavigate()
-  const [error,setError] = useState('');
-  const handleRegister = async () => {
-    if (!email || !password) {
-      setError('Vui lòng điền đầy đủ thông tin.');
-      return;
-    }
+const schema = yup.object().shape({
+  username: yup.string().required(),
+  password: yup.string().required()
+})
+
+const Register = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+  const { register } = useAuth();
+  const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:8000/register', {
-        email,
-        password,
-      });
-      console.log(response.data);
-      alert('Đăng ký thành công !')
-      navigate('/login');
-
-    } catch (error) {
-      console.error('Có lỗi khi call api')
-      setError('Đăng ký không thành công. Vui lòng thử lại.');
+      register(data)
+      console.log(data);
+    } catch (err) {
+      toast.error(extractMessageFromErr(err))
     }
   }
   return (
@@ -44,35 +48,41 @@ const Login = () => {
             <h2>NAMA LENGKAP</h2>
           </div>
           <div className="content-login">
-            <input
-              placeholder="Email"
-              type="Email"
-              style={{
-                height: "32px",
-                border: "none",
-                borderBottom: "1px solid gray",
-              }}
-              onChange={(e) => setEmail(e.target.value)}
-            ></input>
+            <div>
+              <Controller
+                control={control}
+                name="username"
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    status={"error.username" ? "error" : ""} />)}>
+
+              </Controller>
+              {errors.username && <ErrorsMessage message={errors.username} />}
+            </div>
             <div>
               <h2>NOMOR HANDPHONE</h2>
-              <input
-                type="password"
-                placeholder="Password"
-                style={{
-                  height: "32px",
-                  border: "none",
-                  borderBottom: "1px solid gray",
-                  width: "300px",
-                }}
-                onChange={(e) => setPassword(e.target.value)}
-              ></input>
+              <Controller
+                control={control}
+                name="password"
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    status={"error.password" ? "error" : ""}
+                    type="password"
+                  />)}>
+
+              </Controller>
+              {errors.password && <ErrorsMessage message={errors.password} />}
             </div>
-              <Button type="primary" className="btn-signup" onClick={handleRegister}>
-                Register
-              </Button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            
+            <Button
+              className="submit"
+              type="primary"
+              onClick={handleSubmit(onSubmit)}
+            >
+              Sign in
+            </Button>
+
           </div>
         </div>
       </div>
@@ -80,4 +90,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
