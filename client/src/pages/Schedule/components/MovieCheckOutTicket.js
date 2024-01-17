@@ -16,6 +16,7 @@ const MovieCheckOut = styled.div`
     border: none;
     border-radius: 12px;
     background-color: #1a2c50;
+    cursor: pointer;
   }
   .ticket-info {
     display: flex;
@@ -32,16 +33,18 @@ const MovieCheckOut = styled.div`
   }
 `;
 
-const MovieCheckOutTicket = () => {
+const MovieCheckOutTicket = ({ cinemaName, date, time, price, onClick }) => {
   return (
     <MovieCheckOut>
       <div className="ticket-info">
-        <h4 className="cinema-name">CGV Aeon</h4>
-        <p className="schedule-date">Friday, 12 January, 2024</p>
-        <p className="schedule-time">Suất chiếu: 22:00</p>
-        <p className="ticket-money">120.000 VND</p>
+        <h4 className="cinema-name">Rạp chiếu: {cinemaName}</h4>
+        <p className="schedule-date">Ngày chiếu: {date}</p>
+        <p className="schedule-time">Suất chiếu: {time}</p>
+        <p className="ticket-money">Giá vé: {price}</p>
       </div>
-      <button className="btn-checkout">CHECK OUT</button>
+      <button className="btn-checkout" onClick={onClick}>
+        CHECK OUT
+      </button>
     </MovieCheckOut>
   );
 };

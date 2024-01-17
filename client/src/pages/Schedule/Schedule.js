@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ScheduleSlot from "./components/ScheduleSlot";
 import MovieTime from "./components/MovieTime";
 import MovieCheckOutTicket from "./components/MovieCheckOutTicket";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 //css
@@ -13,6 +13,7 @@ const ScheduleMovie = styled.div`
   padding: 12px 66px;
   display: flex;
   gap: 50px;
+  margin-bottom: 100px;
   .schedule-left {
     width: 50%;
   }
@@ -67,10 +68,35 @@ const ScheduleMovie = styled.div`
   }
   .movie-time__list {
     margin-top: 20px;
+    display: flex;
+    gap: 20px;
   }
   .movie-checkout {
   }
 `;
+
+const cinemaArr = [
+  {
+    id: "65a139d8996766de9b1db117",
+    name: "Rạp 1",
+    price: "100.000 VNĐ",
+  },
+  {
+    id: "65a13a13996766de9b1db119",
+    name: "Rạp 2",
+    price: "150.000 VNĐ",
+  },
+  {
+    id: "65a13a1f996766de9b1db11b",
+    name: "Rạp 3",
+    price: "150.000 VNĐ",
+  },
+  {
+    id: "65a13a25996766de9b1db11d",
+    name: "Rạp 4",
+    price: "150.000 VNĐ",
+  },
+];
 
 const getMovieById = async (movieId) => {
   try {
@@ -113,37 +139,49 @@ const getShowTime = async () => {
 };
 
 const Schedule = () => {
+  const navigate = useNavigate();
   const param = useParams();
   const [movieById, setMovieById] = useState({});
   const [showTimeByMovieId, setShowTimeByMovieId] = useState([]);
   const [cinemaById, setCinemaById] = useState({});
-  const [showTimeOfMovie, setShowTimeOfMovie] = useState([]);
+  const [cinema1, setCinema1] = useState([]);
+  const [cinema2, setCinema2] = useState([]);
+  const [cinema3, setCinema3] = useState([]);
+  const [cinema4, setCinema4] = useState([]);
+  const [scheduleChoose, setScheduleChoose] = useState({});
+  const [priceMovie, setPriceMovie] = useState("");
   const handleFetchData = async () => {
     const movie = await getMovieById(param.movieId);
     const showtime = await getShowTimeByMovieId(param.movieId);
-    const all_showtime = await getShowTime();
     if (showtime) {
-      const cinema = await getCinemaById(showtime[0].cinemaId);
-      if (cinema) {
-        setCinemaById(cinema);
-      }
-    }
-    if (all_showtime) {
-      const filterShowtime = all_showtime.filter(
-        (item) => item.movieId === param.movieId
+      const cine1 = showtime.filter(
+        (item) => item.cinemaId === "65a139d8996766de9b1db117"
       );
-      setShowTimeOfMovie(filterShowtime);
-      // console.log("Filter showtime: ", filterShowtime);
+      const cine2 = showtime.filter(
+        (item) => item.cinemaId === "65a13a13996766de9b1db119"
+      );
+      const cine3 = showtime.filter(
+        (item) => item.cinemaId === "65a13a1f996766de9b1db11b"
+      );
+      const cine4 = showtime.filter(
+        (item) => item.cinemaId === "65a13a25996766de9b1db11d"
+      );
+      setCinema1(cine1);
+      setCinema2(cine2);
+      setCinema3(cine3);
+      setCinema4(cine4);
     }
-    // console.log("showtime: ", all_showtime, typeof all_showtime);
-
     setMovieById(movie);
     setShowTimeByMovieId(showtime);
+  };
+  const handleCheckOut = (movieId, cinemaId, date, schedule) => {
+    navigate(`/seats/${movieId}/${cinemaId}/${date}/${schedule}`);
+    console.log(movieId);
   };
   useEffect(() => {
     handleFetchData();
   }, []);
-  console.log(showTimeOfMovie);
+
   return (
     <ScheduleMovie>
       <div className="schedule-left">
@@ -164,14 +202,107 @@ const Schedule = () => {
             {cinemaById && (
               <div className="cinema-name">
                 <img src="/images/Star.png" alt="" />
-                <p>{cinemaById.name}</p>
+                <p>Rạp 1</p>
               </div>
             )}
           </div>
           <div className="movie-time__list">
-            {showTimeByMovieId[0] && (
-              <MovieTime time={showTimeByMovieId[0].startAt}></MovieTime>
+            {cinema1.length > 0 &&
+              cinema1.map((item, index) => (
+                <div
+                  onClick={() => {
+                    setScheduleChoose(item);
+                    console.log("item click: ", item);
+                    const priceCine = cinemaArr.find(
+                      (i) => i.id === item.cinemaId
+                    );
+                    setPriceMovie(priceCine.price);
+                  }}
+                >
+                  <MovieTime time={item.startAt}></MovieTime>
+                </div>
+              ))}
+          </div>
+        </div>
+        <div className="schedule-cinema">
+          <div className="cinema-name">
+            {cinemaById && (
+              <div className="cinema-name">
+                <img src="/images/Star.png" alt="" />
+                <p>Rạp 2</p>
+              </div>
             )}
+          </div>
+          <div className="movie-time__list">
+            {cinema2.length > 0 &&
+              cinema2.map((item, index) => (
+                <div
+                  onClick={() => {
+                    setScheduleChoose(item);
+                    console.log("item click: ", item);
+                    const priceCine = cinemaArr.find(
+                      (i) => i.id === item.cinemaId
+                    );
+                    setPriceMovie(priceCine.price);
+                  }}
+                >
+                  <MovieTime time={item.startAt}></MovieTime>
+                </div>
+              ))}
+          </div>
+        </div>
+        <div className="schedule-cinema">
+          <div className="cinema-name">
+            {cinemaById && (
+              <div className="cinema-name">
+                <img src="/images/Star.png" alt="" />
+                <p>Rạp 3</p>
+              </div>
+            )}
+          </div>
+          <div className="movie-time__list">
+            {cinema3.length > 0 &&
+              cinema3.map((item, index) => (
+                <div
+                  onClick={() => {
+                    setScheduleChoose(item);
+                    console.log("item click: ", item);
+                    const priceCine = cinemaArr.find(
+                      (i) => i.id === item.cinemaId
+                    );
+                    setPriceMovie(priceCine.price);
+                  }}
+                >
+                  <MovieTime time={item.startAt}></MovieTime>
+                </div>
+              ))}
+          </div>
+        </div>
+        <div className="schedule-cinema">
+          <div className="cinema-name">
+            {cinemaById && (
+              <div className="cinema-name">
+                <img src="/images/Star.png" alt="" />
+                <p>Rạp 4</p>
+              </div>
+            )}
+          </div>
+          <div className="movie-time__list">
+            {cinema4.length > 0 &&
+              cinema4.map((item, index) => (
+                <div
+                  onClick={() => {
+                    setScheduleChoose(item);
+                    console.log("item click: ", item);
+                    const priceCine = cinemaArr.find(
+                      (i) => i.id === item.cinemaId
+                    );
+                    setPriceMovie(priceCine.price);
+                  }}
+                >
+                  <MovieTime time={item.startAt}></MovieTime>
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -186,7 +317,19 @@ const Schedule = () => {
           </div>
         </div>
         <div className="movie-checkout">
-          <MovieCheckOutTicket></MovieCheckOutTicket>
+          <MovieCheckOutTicket
+            date={scheduleChoose.startDate?.slice(5, 10)}
+            time={scheduleChoose.startAt}
+            price={priceMovie}
+            onClick={() =>
+              handleCheckOut(
+                movieById._id,
+                scheduleChoose.cinemaId,
+                scheduleChoose.startDate,
+                scheduleChoose.startAt
+              )
+            }
+          ></MovieCheckOutTicket>
         </div>
       </div>
     </ScheduleMovie>
