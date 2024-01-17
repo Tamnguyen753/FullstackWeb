@@ -20,37 +20,21 @@ export const AppContext = createContext();
 const App = () => {
   const [user, setUser] = useState(null);
   return (
-    <AppContext.Provider
-      value={{
-        user,
-        setUser,
-      }}
-    >
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/schedule" element={<Schedule />} />
-            <Route path="/schedule/:movieId" element={<Schedule />} />
-            <Route path="/seats" element={<Seat />} />
-            <Route
-              path="/seats/:movieId/:cinemaId/:date/:schedule"
-              element={<Seat />}
-            />
-            <Route path="/news/:id" element={<NewDetail />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/vnpay" element={<Vnpay />} />
-            <Route path="/atm" element={<Atm />} />
-
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
-        <ToastContainer />
-      </BrowserRouter>
-    </AppContext.Provider>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/seats" element={<Seat />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/news/:id" element={<NewDetail />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   );
 };
 
