@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SeatComponent from "./components/SeatComponent";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -92,16 +92,19 @@ const getCinemaById = async (cineId) => {
 const Seat = () => {
   let number = 0;
   const param = useParams();
+  const { state } = useLocation();
+
   const navigate = useNavigate();
   const [numberSeatChoose, setNumberSeatChoose] = useState(0);
   const [movie, setMovie] = useState({});
   const [cinema, setCinema] = useState({});
   const [seats, setSeats] = useState([]);
   const [seatChoose, setSeatChoose] = useState([]);
+  const [price, setPrice] = useState(0);
   const handleFetchData = async () => {
-    const movieData = await getMovieById(param.movieId);
+    const movieData = await getMovieById(state.movie);
     setMovie(movieData);
-    const cinemaData = await getCinemaById(param.cinemaId);
+    const cinemaData = await getCinemaById(state.cinema);
     setCinema(cinemaData);
     if (cinemaData) {
       setSeats(cinemaData.seats);
@@ -111,9 +114,10 @@ const Seat = () => {
     setSeatChoose([...seatChoose, { id: number++, seat: seat }]);
     console.log(number);
     setNumberSeatChoose(numberSeatChoose + 1);
+    setPrice((numberSeatChoose + 1) * cinema.ticketPrice);
   };
   const handlePayment = () => {
-    navigate("/payment", { state: { seat: seatChoose } });
+    navigate("/payment", { state: { seat: seatChoose, price: price } });
   };
   useEffect(() => {
     handleFetchData();
@@ -123,8 +127,8 @@ const Seat = () => {
     <Seats>
       <div className="cinema-name">Tên Rạp: {cinema.name}</div>
       <div className="movie-name">Tên Phim: {movie.name}</div>
-      <div className="movie-date">Thời gian: {param.date.slice(5, 10)}</div>
-      <div className="movie-schedule">Suất chiếu: {param.schedule}</div>
+      <div className="movie-date">Thời gian: {state.date.slice(5, 10)}</div>
+      <div className="movie-schedule">Suất chiếu: {state.schedule}</div>
       <div className="seat-list">
         {seats.length > 0 &&
           seats.map((item, index) => (
@@ -137,7 +141,7 @@ const Seat = () => {
       <div className="seat-bottom"></div>
       <div className="seat-payment">
         <p>Ghế chọn: {seatChoose.map((seat) => seat.seat + ",")}</p>
-        <p>Tổng tiền: {150000 * numberSeatChoose}</p>
+        <p>Tổng tiền: {price}</p>
         <button onClick={() => handlePayment()}>Thanh toán</button>
         <button>Back</button>
       </div>

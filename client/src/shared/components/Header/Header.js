@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Admin from "./Admin";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 //css
 const HeaderComponent = styled.div`
@@ -13,6 +13,7 @@ const HeaderComponent = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
+
   .header__menu {
     width: fit-content;
     height: 40px;
@@ -42,15 +43,13 @@ const Header = () => {
         </div>
         <ul className="header__menu">
           <li className="header__menu-item">
-            <a href="#">Home</a>
+            <Link to={"/"}>Trang chủ</Link>
           </li>
           <li className="header__menu-item">
-            <a href="#">Ticket</a>
+            <a href="#">Phim</a>
           </li>
           <li className="header__menu-item">
-            <a href="#" className="header__menu-item__link">
-              News
-            </a>
+            <Link to={"/news"}>Tin tức</Link>
           </li>
           <li className="header__menu-item" header-notification>
             <svg

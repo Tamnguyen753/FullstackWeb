@@ -14,14 +14,24 @@ const Payment = () => {
     navigate("/schedule");
   };
   const { state } = useLocation();
-  console.log("state: ", state);
+  console.log("seat: ", state.seat);
+  let seatNumber = "";
+  for (let i = 0; i < state.seat.length; i++) {
+    seatNumber = seatNumber + ", " + state.seat[i].seat;
+  }
   return (
     <>
       <Button onClick={handleBack} size="large">
         Quay lại
       </Button>
       <div className="payment">
-        {state.seat.map((item) => item.seat)}
+        <div className="payment-ticket">
+          <p className="payment-seat">Ghế đã chọn: {seatNumber.slice(1)}</p>
+          <p className="payment-total">
+            Tổng tiền cần thanh toán: {state.price}
+          </p>
+        </div>
+
         <h1>Chọn phương thức thanh toán</h1>
         <Button onClick={handleVnpay} type="primary">
           <div>

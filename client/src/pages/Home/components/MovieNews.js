@@ -8,6 +8,9 @@ const MovieNewsItem = styled.div`
     img {
       display: block;
       max-width: 100%;
+      height: 50%;
+      object-fit: cover;
+      cursor: pointer;
     }
   }
   .movie-news__desc {
@@ -24,6 +27,7 @@ const MovieNewsItem = styled.div`
       font-size: 20px;
       font-weight: 500;
       margin-bottom: 18px;
+      cursor: pointer;
     }
     p {
       font-size: 14px;
@@ -33,18 +37,14 @@ const MovieNewsItem = styled.div`
   }
 `;
 
-const MovieNews = () => {
+const MovieNews = ({ tag, image, createAt, title, onClick }) => {
   return (
     <MovieNewsItem>
-      <img
-        srcSet="/images/movie-news-1.png 2x"
-        alt=""
-        className="movie-news__image"
-      />
+      <img src={image} alt="" className="movie-news__image" onClick={onClick} />
       <div className="movie-news__desc">
-        <span>Spotlight</span>
-        <h4>Spider-Man: No Way Home News</h4>
-        <p>10 Jan 2024 | MOVIE MINDX</p>
+        <span>{tag}</span>
+        <h4 onClick={onClick}>{title}</h4>
+        <p>{createAt}</p>
       </div>
     </MovieNewsItem>
   );

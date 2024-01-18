@@ -9,9 +9,12 @@ const Movie = styled.div`
   gap: 52px;
   .movie-image {
     width: 80%;
+
     img {
+      height: 600px;
       border-radius: 15px;
       cursor: pointer;
+      object-fit: cover;
     }
   }
 

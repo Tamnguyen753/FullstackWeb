@@ -150,6 +150,7 @@ const Schedule = () => {
   const [cinema4, setCinema4] = useState([]);
   const [scheduleChoose, setScheduleChoose] = useState({});
   const [priceMovie, setPriceMovie] = useState("");
+  const [isChoose, setIsChoose] = useState(false);
   const handleFetchData = async () => {
     const movie = await getMovieById(param.movieId);
     const showtime = await getShowTimeByMovieId(param.movieId);
@@ -175,13 +176,24 @@ const Schedule = () => {
     setShowTimeByMovieId(showtime);
   };
   const handleCheckOut = (movieId, cinemaId, date, schedule) => {
-    navigate(`/seats/${movieId}/${cinemaId}/${date}/${schedule}`);
-    console.log(movieId);
+    if (isChoose) {
+      navigate("/seats", {
+        state: {
+          movie: movieId,
+          cinema: cinemaId,
+          date: date,
+          schedule: schedule,
+        },
+      });
+      setIsChoose(false);
+    } else {
+      alert("Hay chon");
+    }
   };
   useEffect(() => {
     handleFetchData();
   }, []);
-
+  console.log("isChoose: ", isChoose);
   return (
     <ScheduleMovie>
       <div className="schedule-left">
@@ -212,11 +224,12 @@ const Schedule = () => {
                 <div
                   onClick={() => {
                     setScheduleChoose(item);
-                    console.log("item click: ", item);
                     const priceCine = cinemaArr.find(
                       (i) => i.id === item.cinemaId
                     );
                     setPriceMovie(priceCine.price);
+                    setIsChoose(true);
+                    console.log("isChoose: ", isChoose);
                   }}
                 >
                   <MovieTime time={item.startAt}></MovieTime>
@@ -244,6 +257,7 @@ const Schedule = () => {
                       (i) => i.id === item.cinemaId
                     );
                     setPriceMovie(priceCine.price);
+                    setIsChoose(true);
                   }}
                 >
                   <MovieTime time={item.startAt}></MovieTime>
@@ -271,6 +285,7 @@ const Schedule = () => {
                       (i) => i.id === item.cinemaId
                     );
                     setPriceMovie(priceCine.price);
+                    setIsChoose(true);
                   }}
                 >
                   <MovieTime time={item.startAt}></MovieTime>
@@ -298,6 +313,7 @@ const Schedule = () => {
                       (i) => i.id === item.cinemaId
                     );
                     setPriceMovie(priceCine.price);
+                    setIsChoose(true);
                   }}
                 >
                   <MovieTime time={item.startAt}></MovieTime>
@@ -312,8 +328,8 @@ const Schedule = () => {
           <div className="movie-info-desc">
             <p>Thể loại: {movieById.tag}</p>
             <p>Thời lượng: {movieById.duration}</p>
-            <p>Director: {movieById.director}</p>
-            <p>Ratting: {movieById.rating}</p>
+            <p>Đạo diễn: {movieById.director}</p>
+            <p>Đánh giá: {movieById.rating}</p>
           </div>
         </div>
         <div className="movie-checkout">
