@@ -5,9 +5,9 @@ import accountModel from "./models/account.js";
 import cors from "cors"
 import authRouter from "./routes/auth-route.js";
 import verifyTokenMiddware from "./middleware/auth-middleware.js";
+import newRoute from "./routes/news-route.js";
 import { MongoClient } from "mongodb";
 import connectDB from "./config/db.js";
-import newRoute from "./routes/news-route.js";
 config();
 const app = express();
 app.use(express.json());
