@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import MovieOverView from "./components/MovieOverView";
 import BannerOverview from "./components/BannerOverview";
@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { AppContext } from "../../App.js";
+import Admin from "../../shared/components/Header/Admin/index.js";
 
 //  CSS page
 const HomePage = styled.div`
@@ -92,6 +94,7 @@ const Home = () => {
     setRecommendMovie(rMovie);
     setAllMovie(movies);
   };
+
   const hanleViewMovieSchedule = (movieId) => {
     navigate(`/schedule/${movieId}`);
   };
@@ -135,6 +138,7 @@ const Home = () => {
   };
   return (
     <HomePage>
+      <Admin />
       {/* Movie Slider */}
       <div className="movie-slider">
         <Slider {...settings}>

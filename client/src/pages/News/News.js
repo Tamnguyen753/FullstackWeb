@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { Input, Button, Spin, Modal } from 'antd';
 import axios from 'axios';
@@ -6,6 +6,7 @@ import NewsItem from '../../shared/components/News';
 import ModalCreate from './ModalCreate';
 import useBoolean from '../../hooks/useBoolean';
 import ReactPaginate from 'react-paginate';
+import { AppContext } from '../../App';
 
 const NewsPage = styled.div`
   max-width: 1440px;
@@ -69,6 +70,7 @@ const NewsPage = styled.div`
 `;
 
 const ButtonCreateNews = () => {
+
   const { value: isOpen, setTrue, setFalse } = useBoolean();
   return (
     <>
@@ -81,8 +83,12 @@ const ButtonCreateNews = () => {
     </>
   );
 };
-
+const useUserContext = () => {
+  const { user } = useContext(AppContext)
+  return user;
+};
 const News = () => {
+  const user1 = useUserContext();
   const filterNews = ['anime', 'action', 'horror', 'thriller', 'novel', 'cartoon'];
   const { Search } = Input;
 
@@ -140,7 +146,7 @@ const News = () => {
       <div className='header'>
         <h1>TIX ID News</h1>
         <p>Những tin tức mới nhất về thế giới điện ảnh dành cho bạn!</p>
-        <ButtonCreateNews />
+        {user1 && user1.username === "admin" ? <ButtonCreateNews /> : null}
         <Search
           placeholder='Tìm kiếm bài viết'
           allowClear

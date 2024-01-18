@@ -3,33 +3,44 @@ import useBoolean from "../../../../hooks/useBoolean";
 import ModalCreate from "./ModalCreate";
 import { Button } from "antd";
 import { useContext } from "react";
-import AppContext from "antd/es/app/context";
+import { AppContext } from "../../../../App";
+import styled from "styled-components";
 
-  const Admin = () => {
-    const { user } = useContext(AppContext);
-    // const { logOut } = useAuth();
-    const ButtonCreatePost = () => {
-        const { value: isOpen, setFalse, setTrue } = useBoolean();
-        return (
-          <>
-            <Button type="primary" onClick={setTrue}>
-              Create
-            </Button>
-            <Modal title="New post" open={isOpen} onCancel={setFalse} footer={false}>
-              <ModalCreate close={setFalse} />
-            </Modal>
-          </>
-        );
-      };
+const StyledAdmin = styled.div`
+  position: fixed;
+  top: 3;
+  left: 0;
+  padding: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 100; 
+`;
+const useUserContext = () => {
+  const { user } = useContext(AppContext)
+  return user;
+};
+const Admin = () => {
+  const ButtonCreatePost = () => {
+    const { value: isOpen, setFalse, setTrue } = useBoolean();
     return (
-      <div className="user-info">
-        {/* <p>{user.username}</p> */}
-        <ButtonCreatePost />
-        {/* <Button type="primary" danger onClick={logOut}>
-          Logout
-        </Button> */}
-      </div>
+      <>
+        <Button type="primary" onClick={setTrue}>
+          Create
+        </Button>
+        <Modal title="New post" open={isOpen} onCancel={setFalse} footer={false}>
+          <ModalCreate close={setFalse} />
+        </Modal>
+      </>
     );
   };
-  
-  export default Admin;
+  const user1 = useUserContext();
+  return (
+    <StyledAdmin>
+    <div className="user-info">
+      {user1 && user1.username === "admin" ? <ButtonCreatePost /> : null}
+    </div>
+    </StyledAdmin>
+  );
+};
+
+export default Admin;
