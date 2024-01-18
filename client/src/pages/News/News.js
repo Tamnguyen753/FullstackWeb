@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { Input, Button, Spin, Modal } from 'antd';
-import axios from 'axios';
-import NewsItem from '../../shared/components/News';
-import ModalCreate from './ModalCreate';
-import useBoolean from '../../hooks/useBoolean';
-import ReactPaginate from 'react-paginate';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { Input, Button, Spin, Modal } from "antd";
+import axios from "axios";
+import NewsItem from "../../shared/components/News";
+import ModalCreate from "./ModalCreate";
+import useBoolean from "../../hooks/useBoolean";
+import ReactPaginate from "react-paginate";
 
 const NewsPage = styled.div`
   max-width: 1440px;
@@ -72,10 +72,15 @@ const ButtonCreateNews = () => {
   const { value: isOpen, setTrue, setFalse } = useBoolean();
   return (
     <>
-      <Button type='primary' onClick={setTrue}>
+      <Button type="primary" onClick={setTrue}>
         Create
       </Button>
-      <Modal title='New News' visible={isOpen} onCancel={setFalse} footer={false}>
+      <Modal
+        title="New News"
+        visible={isOpen}
+        onCancel={setFalse}
+        footer={false}
+      >
         <ModalCreate />
       </Modal>
     </>
@@ -83,10 +88,17 @@ const ButtonCreateNews = () => {
 };
 
 const News = () => {
-  const filterNews = ['anime', 'action', 'horror', 'thriller', 'novel', 'cartoon'];
+  const filterNews = [
+    "anime",
+    "action",
+    "horror",
+    "thriller",
+    "novel",
+    "cartoon",
+  ];
   const { Search } = Input;
 
-  const [activeButton, setActiveButton] = useState('');
+  const [activeButton, setActiveButton] = useState("");
   const [newsData, setNewsData] = useState([]);
   const [filteredNewsData, setFilteredNewsData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -104,12 +116,12 @@ const News = () => {
     const fetchNews = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:8000/news');
+        const response = await axios.get("http://localhost:8000/news");
         const listNew = Object.values(response.data);
         setNewsData(listNew);
         setFilteredNewsData(listNew);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -137,27 +149,27 @@ const News = () => {
 
   return (
     <NewsPage>
-      <div className='header'>
+      <div className="header">
         <h1>TIX ID News</h1>
         <p>Những tin tức mới nhất về thế giới điện ảnh dành cho bạn!</p>
         <ButtonCreateNews />
         <Search
-          placeholder='Tìm kiếm bài viết'
+          placeholder="Tìm kiếm bài viết"
           allowClear
           onSearch={handleSearch}
         />
         {filterNews.map((topic) => (
           <Button
             key={topic}
-            className='filterButton'
-            type={activeButton === topic ? 'primary' : 'default'}
+            className="filterButton"
+            type={activeButton === topic ? "primary" : "default"}
             onClick={() => handleFilter(topic)}
           >
             {topic}
           </Button>
         ))}
       </div>
-      <div className='content'>
+      <div className="content">
         {loading ? (
           <Spin size="large" />
         ) : (
@@ -167,17 +179,17 @@ const News = () => {
         )}
       </div>
       <span>
-      <ReactPaginate
-        previousLabel={'Previous'}
-        nextLabel={'Next'}
-        pageCount={pageCount}
-        onPageChange={changePage}
-        containerClassName={'pagination'}
-        previousLinkClassName={'pagination__link'}
-        nextLinkClassName={'pagination__link'}
-        disabledClassName={'pagination__link--disabled'}
-        activeClassName={'pagination__link--active'}
-      />
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          pageCount={pageCount}
+          onPageChange={changePage}
+          containerClassName={"pagination"}
+          previousLinkClassName={"pagination__link"}
+          nextLinkClassName={"pagination__link"}
+          disabledClassName={"pagination__link--disabled"}
+          activeClassName={"pagination__link--active"}
+        />
       </span>
     </NewsPage>
   );

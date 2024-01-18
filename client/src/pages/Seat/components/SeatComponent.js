@@ -20,9 +20,9 @@ const SeatItem = styled.div`
   }
 `;
 
-const SeatComponent = ({ seatName }) => {
+const SeatComponent = ({ seatName, onClick }) => {
   return (
-    <SeatItem>
+    <SeatItem onClick={onClick}>
       <p>{seatName}</p>
     </SeatItem>
   );
