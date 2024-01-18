@@ -21,9 +21,9 @@ const useAuth = () => {
             });
 
             const token = JSON.stringify(res.data.data);
-            console.log(token);
             localStorage.setItem("access_token", token)
             toast.success("Login success");
+            setUser(data)
             navigate("/");
         } catch (err) {
             toast.error(extractMessageFromErr(err))
@@ -48,8 +48,12 @@ const useAuth = () => {
             toast.error(extractMessageFromErr(err))
         }
     }
+    const logout = () => {
+        localStorage.removeItem("access_token");
+        setUser(null);
+    }
 
-    return { login, register }
+    return { login, register ,logout}
 }
 
 export default useAuth

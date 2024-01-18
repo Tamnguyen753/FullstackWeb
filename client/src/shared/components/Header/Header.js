@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import Admin from "./Admin";
-import { useNavigate, Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
+import { AppContext } from "../../../App";
+import { Button } from "antd";
+import useAuth from "../../../hooks/useAuth";
+
 
 //css
 const HeaderComponent = styled.div`
@@ -35,6 +40,8 @@ const HeaderComponent = styled.div`
 
 const Header = () => {
   const navigate = useNavigate();
+  const {user} =useContext(AppContext);
+  const {logout} = useAuth();
   return (
     <>
       <HeaderComponent>
@@ -43,6 +50,7 @@ const Header = () => {
         </div>
         <ul className="header__menu">
           <li className="header__menu-item">
+
             <Link to={"/"}>Trang chủ</Link>
           </li>
           <li className="header__menu-item">
@@ -50,6 +58,7 @@ const Header = () => {
           </li>
           <li className="header__menu-item">
             <Link to={"/news"}>Tin tức</Link>
+
           </li>
           <li className="header__menu-item" header-notification>
             <svg
@@ -83,37 +92,12 @@ const Header = () => {
             </svg>
           </li>
           <li className="header__menu-item header-avatar">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-            >
-              <circle
-                cx="20"
-                cy="20"
-                r="20"
-                fill="url(#paint0_linear_842_2220)"
-              />
-              <defs>
-                <linearGradient
-                  id="paint0_linear_842_2220"
-                  x1="2.98023e-07"
-                  y1="20"
-                  x2="40"
-                  y2="20"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stop-color="#F2C46F" />
-                  <stop offset="1" stop-color="#C6943F" />
-                </linearGradient>
-              </defs>
-            </svg>
+            {!user ? <Link to={"/login"}>Login</Link> :             <Button type="primary" danger onClick={logout}>
+               Logout
+            </Button>  }
           </li>
         </ul>
       </HeaderComponent>
-      <Admin />
     </>
   );
 };
