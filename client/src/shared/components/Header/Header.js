@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import Admin from "./Admin";
+
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { Button } from "antd";
 import useAuth from "../../../hooks/useAuth";
+
 
 //css
 const HeaderComponent = styled.div`
@@ -16,6 +18,7 @@ const HeaderComponent = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
+
   .header__menu {
     width: fit-content;
     height: 40px;
@@ -47,13 +50,15 @@ const Header = () => {
         </div>
         <ul className="header__menu">
           <li className="header__menu-item">
-            <Link to={``}> Home</Link>
+
+            <Link to={"/"}>Trang chủ</Link>
           </li>
           <li className="header__menu-item">
-          <Link to={`*`}> Ticket</Link>
+            <a href="#">Phim</a>
           </li>
           <li className="header__menu-item">
-          <Link to={`news`}> News</Link>
+            <Link to={"/news"}>Tin tức</Link>
+
           </li>
           <li className="header__menu-item" header-notification>
             <svg

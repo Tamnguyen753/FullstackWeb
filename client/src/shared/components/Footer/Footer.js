@@ -74,30 +74,29 @@ const Footer = () => {
       </div>
       <div className="footer__link">
         <ul className="footer__link-list">
-          <li>Perusahaan</li>
-          <li>Kontak Kami</li>
-          <li>Tentang</li>
-          <li>Partner</li>
+          <li>MINDX CINEMA</li>
+          <li>Giới thiệu</li>
+          <li>Tuyển dụng</li>
+          <li>Dành cho đối tác</li>
         </ul>
         <ul className="footer__link-list">
-          <li>Seputar</li>
-          <li>TIX ID News</li>
-          <li>Bioskop</li>
-          <li>Tiket Saya</li>
-          <li>Pembayaran</li>
-          <li>Cicilan</li>
+          <li>Điều khoản sử dụng</li>
+          <li>Điều khoản chung</li>
+          <li>Điều khoản giao dịch</li>
+          <li>Chính sách bảo mật</li>
+
+          <li>Câu hỏi thưòng gặp</li>
         </ul>
         <ul className="footer__link-list">
-          <li>Dukungan</li>
-          <li>Pusat Bantuan</li>
-          <li>Kebijakan Privasi</li>
-          <li>FAQ</li>
-          <li>Syarat dan Ketentuan</li>
-          <li>Update Covid-19</li>
+          <li>Thành viên team</li>
+          <li>Nguyễn Đắc Tâm (Leader)</li>
+          <li>Dương Đình Vũ</li>
+          <li>Mai Văn Nam</li>
+          <li>Support: Trần Anh Khoa</li>
         </ul>
       </div>
       <div className="footer__social">
-        <p>Follow Social Media</p>
+        <p>Theo dõi chúng tôi tại</p>
         <div className="footer__social-icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -138,12 +137,12 @@ const Footer = () => {
             />
           </svg>
         </div>
-        <p>Download Aplikasi TIX ID</p>
+        <p>Tải ứng dụng tại</p>
         <div className="footer__social-banner">
           <img src="/images/footer_google-banner.png" alt="Google Banner" />
           <img src="/images/footer_apple-banner.png" alt="Apple Banner" />
         </div>
-        <p>2021 TIX ID - PT Nusantara Elang Sejahtera.</p>
+        <p>2024 - Team 3 - Bảng A</p>
       </div>
     </FooterComonent>
   );
