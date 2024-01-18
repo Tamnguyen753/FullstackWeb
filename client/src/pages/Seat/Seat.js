@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SeatComponent from "./components/SeatComponent";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
+import { AppContext } from "../../App";
 
 const Seats = styled.div`
   max-width: 1300px;
@@ -100,7 +101,10 @@ const Seat = () => {
   const [cinema, setCinema] = useState({});
   const [seats, setSeats] = useState([]);
   const [seatChoose, setSeatChoose] = useState([]);
-  const [price, setPrice] = useState(0);
+  // const [price, setPrice] = useState(0);
+  const { price, setPrice } = useContext(AppContext)
+  const { isLoggedIn, setIsLoggedIn } = useContext(AppContext)
+  // const [isLoggedIn, setIsLoggedIn] = useContext(AppContext)
   const handleFetchData = async () => {
     const movieData = await getMovieById(state.movie);
     setMovie(movieData);
@@ -117,6 +121,12 @@ const Seat = () => {
     setPrice((numberSeatChoose + 1) * cinema.ticketPrice);
   };
   const handlePayment = () => {
+    if (!isLoggedIn) {
+      alert("Vui lòng đăng nhập để thanh toán")
+      navigate("/login")
+      return
+    }
+
     navigate("/payment", { state: { seat: seatChoose, price: price } });
   };
   useEffect(() => {

@@ -14,15 +14,22 @@ import { ToastContainer } from "react-toastify";
 import Vnpay from "./pages/VnPay/Vnpay";
 import Atm from "./pages/Atm/Atm";
 import NewDetail from "./pages/News/NewsItem/NewDetail";
+import Ticket from "./pages/Ticket/Ticket";
 
 export const AppContext = createContext();
 const App = () => {
   const [user, setUser] = useState(null);
+  const [price, setPrice] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <AppContext.Provider
       value={{
         user,
         setUser,
+        price,
+        setPrice,
+        isLoggedIn,
+        setIsLoggedIn
       }}
     >
       <BrowserRouter>

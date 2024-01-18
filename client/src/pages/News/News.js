@@ -12,7 +12,7 @@ import { AppContext } from '../../App';
 
 
 const NewsPage = styled.div`
-  max-width: 1440px;
+  max-width: 1800px;
   max-height: 2500vh;
   margin: 0 auto;
   padding-bottom: 100px;

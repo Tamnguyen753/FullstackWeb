@@ -56,7 +56,7 @@ const NewDetail = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div>
+        <div style={{width:"1024px", margin:"0 auto"}}>
           <h1>Title: {newsData.length > 0 && newsData[0].title}</h1>
           <div className='content'>
             <img className='img' src={newsData.length > 0 && newsData[0].img} />

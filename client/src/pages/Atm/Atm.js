@@ -1,17 +1,19 @@
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Input, Form } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import './Atm.css';
+import { AppContext } from '../../App';
 
 const Atm = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
+    const { price } = useContext(AppContext)
 
-    const handleback = () => {
-        navigate("/payment");
-    };
+    // const handleback = () => {
+    //     navigate("/payment");
+    // };
 
     const handleConfirm = () => {
         form
@@ -34,13 +36,13 @@ const Atm = () => {
 
     return (
         <>
-            <Button onClick={handleback} size='large'>Quay lại</Button>
+            {/* <Button onClick={handleback} size='large'>Quay lại</Button> */}
             <div className='vnpay'>
                 <div className='info'>
                     <h1>Thông tin đơn hàng</h1>
                     <span style={{ marginTop: '20px' }}>
                         <p>Số tiền thanh toán</p>
-                        <p style={{ color: "#0071A9" }}><span>150000</span> VND </p>
+                        <p style={{ color: "#0071A9" }}><span>{price}</span> VND </p>
                     </span>
                 </div>
                 <div className='qr'>

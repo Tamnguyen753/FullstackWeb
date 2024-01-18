@@ -49,7 +49,7 @@ const Login = () => {
           </div>
           <div className="content-login">
             <div >
-              <h2>NOMOR HANDPHONE</h2>
+              <h2>Username</h2>
               <Controller
                 control={control}
                 name="username"

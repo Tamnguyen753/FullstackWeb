@@ -8,6 +8,7 @@ import { extractMessageFromErr } from '../utils/error';
 const useAuth = () => {
     const navigate = useNavigate();
     const { setUser } = useContext(AppContext)
+    const { setIsLoggedIn } = useContext(AppContext)
     const login = async (data) => {
         try {
             const { username, password } = data;
@@ -24,6 +25,7 @@ const useAuth = () => {
             localStorage.setItem("access_token", token)
             toast.success("Login success");
             setUser(data)
+            setIsLoggedIn(true)
             navigate("/");
         } catch (err) {
             toast.error(extractMessageFromErr(err))
@@ -51,9 +53,26 @@ const useAuth = () => {
     const logout = () => {
         localStorage.removeItem("access_token");
         setUser(null);
-    }
+        setIsLoggedIn(false)
+    };
+    // const booking = async (data) => {
+    //     try {
+    //         const res = await request({
+    //             data: {
+    //                 username,
+    //                 seat,
+    //                 showtime
+    //             },
+    //             method: "post",
+    //             url: "/booking"
+    //         })
+    //     } catch (err) {
+    //         console.log(extractMessageFromErr(err));
+    //     }
 
-    return { login, register ,logout}
+    // }
+
+    return { login, register, logout }
 }
 
 export default useAuth

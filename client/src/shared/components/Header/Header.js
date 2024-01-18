@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import Admin from "./Admin";
+import "./Header.css";
 
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../../../App";
@@ -40,8 +41,8 @@ const HeaderComponent = styled.div`
 
 const Header = () => {
   const navigate = useNavigate();
-  const {user} =useContext(AppContext);
-  const {logout} = useAuth();
+  const { user } = useContext(AppContext);
+  const { logout } = useAuth();
   return (
     <>
       <HeaderComponent>
@@ -92,9 +93,12 @@ const Header = () => {
             </svg>
           </li>
           <li className="header__menu-item header-avatar">
-            {!user ? <Link to={"/login"}>Login</Link> :             <Button type="primary" danger onClick={logout}>
-               Logout
-            </Button>  }
+            {!user ? <Link to={"/login"}>Login</Link> : <div className="iconlogin">
+              <p className="username">{user.username}</p>
+              <Button type="primary" danger onClick={logout}>
+                Logout
+              </Button>
+            </div>}
           </li>
         </ul>
       </HeaderComponent>

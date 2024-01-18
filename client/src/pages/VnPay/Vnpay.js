@@ -4,11 +4,11 @@ import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 const Vnpay = () => {
     const navigate = useNavigate()
-    const handleback = () => { navigate("/payment") }
+    // const handleback = () => { navigate("/payment") }
 
     return (
         <>
-            <Button onClick={handleback} size='large'>Quay lại</Button>
+            {/* <Button onClick={handleback} size='large'>Quay lại</Button> */}
             <div className='vnpay'>
                 <div className='info'>
                     <h1>Thông tin đơn hàng</h1>

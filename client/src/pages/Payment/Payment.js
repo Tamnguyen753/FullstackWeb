@@ -10,9 +10,9 @@ const Payment = () => {
   const handleAtm = () => {
     navigate("/atm");
   };
-  const handleBack = () => {
-    navigate("/schedule");
-  };
+  // const handleBack = () => {
+  //   navigate("/seats");
+  // };
   const { state } = useLocation();
   console.log("seat: ", state.seat);
   let seatNumber = "";
@@ -21,9 +21,9 @@ const Payment = () => {
   }
   return (
     <>
-      <Button onClick={handleBack} size="large">
+      {/* <Button onClick={handleBack} size="large">
         Quay lại
-      </Button>
+      </Button> */}
       <div className="payment">
         <div className="payment-ticket">
           <p className="payment-seat">Ghế đã chọn: {seatNumber.slice(1)}</p>
